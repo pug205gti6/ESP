@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESP Indicator</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background-color: transparent; /* Make sure the background is transparent */
+  }
+
+  #esp-status {
+    position: absolute;
+    bottom: 60px; /* Adjust as needed */
+    left: 22%;
+    transform: translateX(-50%);
+    color: white; /* Default color, can be changed based on .esp-on or .tcs-off */
+    font-size: 14px;
+    text-align: center;
+    display: none; /* Hide by default */
+  } 
+
+   .esp-on {
+     color: rgb( 0, 255, 0); /* Green color for esp ON */
+   }
+
+   .esp-off {
+     color: rgb( 255, 0, 0); /* Red color for esp OFF */
+   }
+</style>
+</head>
+<body>
+<div id="esp-status" class="esp-off">ESP</div>
+
+<script>
+  window.addEventListener('message', function(event) {
+    if (event.data.action === 'updateESPStatus') {
+      const espStatusDiv = document.getElementById('esp-status');
+      espStatusDiv.style.display = event.data.display ? 'block' : 'none';
+      if (event.data.display) {
+        if (event.data.espStatus) {
+          espStatusDiv.style.color = 'rgb(0, 255, 0)'; // Green color for ESP ON
+          espStatusDiv.innerText = 'ESP ON';
+        } else {
+          espStatusDiv.style.color = 'rgb(255, 0, 0)'; // Red color for ESP OFF
+          espStatusDiv.innerText = 'ESP OFF';
+        }
+      }
+    }
+  });
+</script>
+
+
+</body>
+</html>
+
+<div id="esp-status" class="esp-off">ESP OFF</div>
+
+<script>
+  window.addEventListener('message', function(event) {
+    if (event.data.action === 'updateESPStatus') {
+      const espStatusDiv = document.getElementById('esp-status');
+      espStatusDiv.style.display = event.data.display ? 'block' : 'none';
+      if (event.data.display) {
+        espStatusDiv.className = event.data.tcsStatus ? 'tcs-on' : 'tcs-off';
+        espStatusDiv.innerText = 'ESP: ' + (event.data.espStatus ? 'ON' : 'OFF');
+      }
+    }
+  });
+</script>
+
+
+</body>
+</html>
