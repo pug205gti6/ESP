@@ -1,4 +1,4 @@
-# scribble
+# esp
 thanks for looking at my script.
 this is my first script. 
 just put the folder in you resourse folder and ensure esp and boom.
